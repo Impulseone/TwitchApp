@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [GameData::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val catDao : GameDataDao
+    abstract val gameDataDao : GameDataDao
 
     companion object {
         @Volatile
@@ -22,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java,
-                        "cat_database")
+                        "games_database")
                         .allowMainThreadQueries()
                         .build()
 

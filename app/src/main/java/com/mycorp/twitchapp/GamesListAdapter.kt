@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.mycorp.twitchapp.database.GameData
 import com.mycorp.twitchapp.databinding.GameItemViewBinding
-import com.mycorp.twitchapp.retrofit.TopItem
 
-class GamesListAdapter(private val items: List<TopItem?>) :
+class GamesListAdapter(private val items: List<GameData>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -23,12 +23,12 @@ class GamesListAdapter(private val items: List<TopItem?>) :
     override fun getItemCount(): Int = items.size
 
     class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(topItem: TopItem?) {
+        fun bind(gameData: GameData) {
             GameItemViewBinding.bind(itemView).apply {
-                Glide.with(itemView.context).load(topItem?.game?.box?.large).into(image)
-                gameName.text = "Game: " + topItem?.game?.name
-                channelsCount.text = "Channels: " + topItem?.channels.toString()
-                watchersCount.text = "Viewers: " + topItem?.viewers.toString()
+                Glide.with(itemView.context).load(gameData.logoUrl).into(image)
+                gameName.text = "Game: " + gameData.name
+                channelsCount.text = "Channels: " + gameData.channelsCount
+                watchersCount.text = "Viewers: " + gameData.watchersCount
             }
         }
     }
