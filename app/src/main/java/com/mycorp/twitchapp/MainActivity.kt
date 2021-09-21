@@ -1,6 +1,7 @@
 package com.mycorp.twitchapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,9 +28,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        db = AppDatabase.getInstance(this)
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
-        db = AppDatabase.getInstance(this)
+        initReportButton()
         getGamesFromDb()
         getGamesFromApi()
     }
@@ -99,5 +102,11 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.gamesRv.layoutManager =
             LinearLayoutManager(this)
         activityMainBinding.gamesRv.adapter = gamesListAdapter
+    }
+
+    private fun initReportButton(){
+        activityMainBinding.reportButton.setOnClickListener{
+            startActivity(Intent(this,RatingActivity::class.java))
+        }
     }
 }

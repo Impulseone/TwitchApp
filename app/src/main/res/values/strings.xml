@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TwitchApp</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="send_report">Отправить отзыв</string>
+    <string name="back">Назад</string>
+    <string name="write_report">Напишите отзыв...</string>
 </resources>
