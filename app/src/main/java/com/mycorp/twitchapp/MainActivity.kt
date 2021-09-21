@@ -20,7 +20,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+        getGamesInfoFromApi()
+    }
 
+    private fun getGamesInfoFromApi(){
         Common.retrofitService.loadGames().enqueue(object : Callback<TwitchResponse> {
             override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
                 t.printStackTrace()
