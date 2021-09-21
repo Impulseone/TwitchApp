@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mycorp.twitchapp.databinding.GameItemViewBinding
 import com.mycorp.twitchapp.retrofit.TopItem
 import com.squareup.picasso.Picasso
@@ -25,7 +26,8 @@ class GamesListAdapter(private val items: List<TopItem?>) :
     class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(topItem: TopItem?) {
             GameItemViewBinding.bind(itemView).apply {
-                Picasso.get().load(topItem?.game?.box?.large).into(image)
+//                Picasso.get().load(topItem?.game?.box?.large).into(image)
+                Glide.with(itemView.context).load(topItem?.game?.box?.large).into(image)
                 gameName.text = "Game: " + topItem?.game?.name
                 channelsCount.text = "Channels: " + topItem?.channels.toString()
                 watchersCount.text = "Viewers: " + topItem?.viewers.toString()
