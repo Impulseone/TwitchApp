@@ -98,15 +98,15 @@ class MainActivity : AppCompatActivity() {
         gamesListAdapter.notifyDataSetChanged()
     }
 
-    private fun setRvAdapter(){
+    private fun setRvAdapter() {
         activityMainBinding.gamesRv.layoutManager =
             LinearLayoutManager(this)
         activityMainBinding.gamesRv.adapter = gamesListAdapter
     }
 
-    private fun initReportButton(){
-        activityMainBinding.reportButton.setOnClickListener{
-            startActivity(Intent(this,RatingActivity::class.java))
+    private fun initReportButton() {
+        activityMainBinding.reportButton.setOnClickListener {
+            startActivity(Intent(this, RatingActivity::class.java))
         }
     }
 }
