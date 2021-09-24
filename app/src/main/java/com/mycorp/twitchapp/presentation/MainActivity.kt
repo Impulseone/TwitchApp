@@ -10,6 +10,7 @@ import com.mycorp.twitchapp.data.repository.RepositoryImplementation
 import com.mycorp.twitchapp.data.storage.model.GameData
 import com.mycorp.twitchapp.data.storage.room.RoomStorage
 import com.mycorp.twitchapp.databinding.ActivityMainBinding
+import com.mycorp.twitchapp.domain.model.GameDataOfDomainModule
 import com.mycorp.twitchapp.domain.use_cases.GetFromDbUseCase
 import com.mycorp.twitchapp.domain.use_cases.GetFromNetworkUseCase
 import com.mycorp.twitchapp.domain.use_cases.InsertToDbUseCase
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var gamesListAdapter: GamesListAdapter
 
-    private var games: ArrayList<GameData> = arrayListOf()
+    private var games: ArrayList<GameDataOfDomainModule> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 //        gamesListAdapter.notifyDataSetChanged()
     }
 
-    private fun insertGameDataToDb(gamesData: List<GameData>) {
+    private fun insertGameDataToDb(gamesData: List<GameDataOfDomainModule>) {
         insertToDbUseCase.execute(gamesData)
     }
 

@@ -8,8 +8,9 @@ import com.bumptech.glide.Glide
 import com.mycorp.twitchapp.R
 import com.mycorp.twitchapp.data.storage.model.GameData
 import com.mycorp.twitchapp.databinding.GameItemViewBinding
+import com.mycorp.twitchapp.domain.model.GameDataOfDomainModule
 
-class GamesListAdapter(private val items: List<GameData>) :
+class GamesListAdapter(private val items: List<GameDataOfDomainModule>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -24,7 +25,7 @@ class GamesListAdapter(private val items: List<GameData>) :
     override fun getItemCount(): Int = items.size
 
     class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(gameData: GameData) {
+        fun bind(gameData: GameDataOfDomainModule) {
             GameItemViewBinding.bind(itemView).apply {
                 Glide.with(itemView.context).load(gameData.logoUrl).into(image)
                 gameName.text = "Game: " + gameData.name

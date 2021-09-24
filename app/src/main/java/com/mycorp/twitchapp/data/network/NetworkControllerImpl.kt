@@ -24,7 +24,7 @@ class NetworkControllerImpl : NetworkController {
                 val twitchResponse = response.body()
                 if (twitchResponse != null) twitchResponse.top?.let {
                     if (it.isNotEmpty()) {
-                        games.addAll(convertItemsToGames(it))
+                        games.addAll(convertItemsToGamesData(it))
                     }
                 }
             }
@@ -32,7 +32,7 @@ class NetworkControllerImpl : NetworkController {
         return games
     }
 
-    private fun convertItemsToGames(items: List<TopItem?>): List<GameData> {
+    private fun convertItemsToGamesData(items: List<TopItem?>): List<GameData> {
         val gamesData: MutableList<GameData> = mutableListOf()
         for (item in items) {
             gamesData.add(
