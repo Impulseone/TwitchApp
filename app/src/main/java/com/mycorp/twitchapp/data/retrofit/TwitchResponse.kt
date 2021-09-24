@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.retrofit
+package com.mycorp.twitchapp.data.retrofit
 
 import com.google.gson.annotations.SerializedName
 

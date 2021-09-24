@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.database
+package com.mycorp.twitchapp.data.database
 
 import android.content.Context
 import androidx.room.Database

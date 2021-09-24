@@ -1,17 +1,16 @@
-package com.mycorp.twitchapp
+package com.mycorp.twitchapp.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mycorp.twitchapp.database.AppDatabase
-import com.mycorp.twitchapp.database.GameData
+import com.mycorp.twitchapp.data.database.AppDatabase
+import com.mycorp.twitchapp.data.database.GameData
 import com.mycorp.twitchapp.databinding.ActivityMainBinding
-import com.mycorp.twitchapp.retrofit.Common
-import com.mycorp.twitchapp.retrofit.Game
-import com.mycorp.twitchapp.retrofit.TopItem
-import com.mycorp.twitchapp.retrofit.TwitchResponse
+import com.mycorp.twitchapp.data.retrofit.Common
+import com.mycorp.twitchapp.data.retrofit.TopItem
+import com.mycorp.twitchapp.data.retrofit.TwitchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

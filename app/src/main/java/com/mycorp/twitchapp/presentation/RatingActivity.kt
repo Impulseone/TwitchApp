@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp
+package com.mycorp.twitchapp.presentation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.mycorp.twitchapp.databinding.ActivityRatingBinding
 import android.widget.Toast
 
-import android.widget.RatingBar
 import android.widget.RatingBar.OnRatingBarChangeListener
 
 
@@ -27,7 +26,8 @@ class RatingActivity : AppCompatActivity() {
                 ).show()
             }
 
-        ratingActivityBinding.sendReportBtn.setOnClickListener{startActivity(Intent(this,MainActivity::class.java))}
-        ratingActivityBinding.backBtn.setOnClickListener{startActivity(Intent(this,MainActivity::class.java))}
+        ratingActivityBinding.sendReportBtn.setOnClickListener{startActivity(Intent(this,
+            MainActivity::class.java))}
+        ratingActivityBinding.backBtn.setOnClickListener{startActivity(Intent(this, MainActivity::class.java))}
     }
 }

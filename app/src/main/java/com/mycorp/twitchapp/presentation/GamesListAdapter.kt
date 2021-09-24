@@ -1,11 +1,12 @@
-package com.mycorp.twitchapp
+package com.mycorp.twitchapp.presentation
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.mycorp.twitchapp.database.GameData
+import com.mycorp.twitchapp.R
+import com.mycorp.twitchapp.data.database.GameData
 import com.mycorp.twitchapp.databinding.GameItemViewBinding
 
 class GamesListAdapter(private val items: List<GameData>) :

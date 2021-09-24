@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.database
+package com.mycorp.twitchapp.data.database
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE

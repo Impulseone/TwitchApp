@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.retrofit
+package com.mycorp.twitchapp.data.retrofit
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
