@@ -7,4 +7,7 @@ import java.util.ArrayList
 
 class RepositoryImplementation(private val storage: Storage) : Repository {
     override fun getGamesData(): ArrayList<GameData> = storage.getGamesData()
+    override fun insertGamesData(gamesData: List<GameData>) {
+        storage.insertGamesData(gamesData)
+    }
 }

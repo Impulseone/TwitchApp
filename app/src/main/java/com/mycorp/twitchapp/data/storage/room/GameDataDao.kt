@@ -10,7 +10,7 @@ interface GameDataDao {
     fun insert(gameData: GameData)
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(vararg gameData: GameData)
+    fun insertAll(objects: List<GameData>)
 
     @Update
     fun update(gameData: GameData)

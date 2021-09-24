@@ -5,4 +5,5 @@ import java.util.ArrayList
 
 interface Repository {
     fun getGamesData():ArrayList<GameData>
+    fun insertGamesData(gamesData: List<GameData>)
 }
