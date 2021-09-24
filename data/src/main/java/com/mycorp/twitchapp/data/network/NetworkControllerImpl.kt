@@ -16,7 +16,6 @@ class NetworkControllerImpl : NetworkController {
             override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
                 t.printStackTrace()
             }
-            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
                 call: Call<TwitchResponse>,
                 response: Response<TwitchResponse>

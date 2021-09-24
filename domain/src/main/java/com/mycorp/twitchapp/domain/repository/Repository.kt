@@ -1,10 +1,10 @@
 package com.mycorp.twitchapp.domain.repository
 
 import com.mycorp.twitchapp.domain.model.GameDataOfDomainModule
-import java.util.ArrayList
+import java.util.*
 
 interface Repository {
-    fun getGamesDataFromDb():ArrayList<GameDataOfDomainModule>
-    fun getGamesDataFromNetwork():ArrayList<GameDataOfDomainModule>
+    fun getGamesDataFromDb(): ArrayList<GameDataOfDomainModule>
+    fun getGamesDataFromNetwork(): ArrayList<GameDataOfDomainModule>
     fun insertGamesData(gamesData: List<GameDataOfDomainModule>)
 }
