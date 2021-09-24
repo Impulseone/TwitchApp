@@ -5,19 +5,44 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mycorp.twitchapp.data.network.NetworkControllerImpl
 import com.mycorp.twitchapp.data.repository.RepositoryImplementation
 import com.mycorp.twitchapp.data.storage.model.GameData
-import com.mycorp.twitchapp.data.storage.retrofit.TopItem
 import com.mycorp.twitchapp.data.storage.room.RoomStorage
 import com.mycorp.twitchapp.databinding.ActivityMainBinding
 import com.mycorp.twitchapp.domain.use_cases.GetFromDbUseCase
+import com.mycorp.twitchapp.domain.use_cases.GetFromNetworkUseCase
 import com.mycorp.twitchapp.domain.use_cases.InsertToDbUseCase
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val getFromDbUseCase by lazy { GetFromDbUseCase(RepositoryImplementation(RoomStorage(applicationContext))) }
-    private val insertToDbUseCase by lazy { InsertToDbUseCase(RepositoryImplementation(RoomStorage(applicationContext))) }
+    private val getFromDbUseCase by lazy {
+        GetFromDbUseCase(
+            RepositoryImplementation(
+                RoomStorage(
+                    applicationContext
+                ), NetworkControllerImpl()
+            )
+        )
+    }
+    private val insertToDbUseCase by lazy {
+        InsertToDbUseCase(
+            RepositoryImplementation(
+                RoomStorage(
+                    applicationContext
+                ), NetworkControllerImpl()
+            )
+        )
+    }
+    private val getFromNetworkUseCase by lazy {
+        GetFromNetworkUseCase(
+            RepositoryImplementation(
+                RoomStorage(applicationContext),
+                NetworkControllerImpl()
+            )
+        )
+    }
 
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var gamesListAdapter: GamesListAdapter
@@ -32,52 +57,17 @@ class MainActivity : AppCompatActivity() {
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
         initReportButton()
-        getGamesFromDb()
-//        getGamesFromApi()
+//        getGamesFromDb()
+        getGamesFromApi()
     }
 
-//    private fun getGamesFromApi() {
-//        Common.retrofitService.loadGames().enqueue(object : Callback<TwitchResponse> {
-//            override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
-//                t.printStackTrace()
-//            }
-//
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun onResponse(
-//                call: Call<TwitchResponse>,
-//                response: Response<TwitchResponse>
-//            ) {
-//                val twitchResponse = response.body()
-//                if (twitchResponse != null) twitchResponse.top?.let {
-//                    if (it.isNotEmpty()) {
-//                        insertGameDataToDb(it)
-//                        games.addAll(convertItemsToGames(it))
-//                        gamesListAdapter.notifyDataSetChanged()
-//                    }
-//                }
-//
-//            }
-//        })
-//    }
+    private fun getGamesFromApi() {
+        games = getFromNetworkUseCase.execute()
+//        gamesListAdapter.notifyDataSetChanged()
+    }
 
     private fun insertGameDataToDb(gamesData: List<GameData>) {
         insertToDbUseCase.execute(gamesData)
-    }
-
-    private fun convertItemsToGames(items: List<TopItem?>): List<GameData> {
-        val gamesData: MutableList<GameData> = mutableListOf()
-        for (item in items) {
-            gamesData.add(
-                GameData(
-                    item?.game?.id!!,
-                    item.game.name!!,
-                    item.game.box?.large!!,
-                    item.channels!!,
-                    item.viewers!!
-                )
-            )
-        }
-        return gamesData
     }
 
     @SuppressLint("NotifyDataSetChanged")

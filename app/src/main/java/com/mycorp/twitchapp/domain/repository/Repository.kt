@@ -4,6 +4,7 @@ import com.mycorp.twitchapp.data.storage.model.GameData
 import java.util.ArrayList
 
 interface Repository {
-    fun getGamesData():ArrayList<GameData>
+    fun getGamesDataFromDb():ArrayList<GameData>
+    fun getGamesDataFromNetwork():ArrayList<GameData>
     fun insertGamesData(gamesData: List<GameData>)
 }
