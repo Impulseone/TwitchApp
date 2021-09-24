@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mycorp.twitchapp.data.network.NetworkControllerImpl
 import com.mycorp.twitchapp.data.repository.RepositoryImplementation
@@ -18,37 +19,10 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val getFromDbUseCase by lazy {
-        GetFromDbUseCase(
-            RepositoryImplementation(
-                RoomStorage(
-                    applicationContext
-                ), NetworkControllerImpl()
-            )
-        )
-    }
-    private val insertToDbUseCase by lazy {
-        InsertToDbUseCase(
-            RepositoryImplementation(
-                RoomStorage(
-                    applicationContext
-                ), NetworkControllerImpl()
-            )
-        )
-    }
-    private val getFromNetworkUseCase by lazy {
-        GetFromNetworkUseCase(
-            RepositoryImplementation(
-                RoomStorage(applicationContext),
-                NetworkControllerImpl()
-            )
-        )
-    }
-
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var gamesListAdapter: GamesListAdapter
-
     private var games: ArrayList<GameDataOfDomainModule> = arrayListOf()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,24 +32,13 @@ class MainActivity : AppCompatActivity() {
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
         initReportButton()
-//        getGamesFromDb()
-        getGamesFromApi()
-    }
 
-    private fun getGamesFromApi() {
-        games = getFromNetworkUseCase.execute()
-//        gamesListAdapter.notifyDataSetChanged()
-    }
-
-    private fun insertGameDataToDb(gamesData: List<GameDataOfDomainModule>) {
-        insertToDbUseCase.execute(gamesData)
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun getGamesFromDb() {
-        val gamesFromDb = getFromDbUseCase.execute()
-        games.addAll(gamesFromDb)
-        gamesListAdapter.notifyDataSetChanged()
+        viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
+        viewModel.getFromDbLiveData.observe(this,{
+            games.addAll(it)
+            gamesListAdapter.notifyDataSetChanged()
+        })
+        viewModel.getGamesFromDb()
     }
 
     private fun setRvAdapter() {
