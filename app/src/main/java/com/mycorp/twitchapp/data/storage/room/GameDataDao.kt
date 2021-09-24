@@ -1,7 +1,8 @@
-package com.mycorp.twitchapp.data.database
+package com.mycorp.twitchapp.data.storage.room
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
+import com.mycorp.twitchapp.data.storage.model.GameData
 
 @Dao
 interface GameDataDao {

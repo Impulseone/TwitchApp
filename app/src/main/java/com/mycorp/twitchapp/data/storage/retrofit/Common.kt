@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.data.retrofit
+package com.mycorp.twitchapp.data.storage.retrofit
 
 object Common {
     val BASE_URL = "https://api.twitch.tv/"

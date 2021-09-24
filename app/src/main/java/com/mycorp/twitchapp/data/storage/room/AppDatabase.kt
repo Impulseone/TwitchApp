@@ -1,9 +1,10 @@
-package com.mycorp.twitchapp.data.database
+package com.mycorp.twitchapp.data.storage.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mycorp.twitchapp.data.storage.model.GameData
 
 @Database(entities = [GameData::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

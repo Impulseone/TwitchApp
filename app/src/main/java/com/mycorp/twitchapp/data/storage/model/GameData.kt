@@ -1,4 +1,4 @@
-package com.mycorp.twitchapp.data.database
+package com.mycorp.twitchapp.data.storage.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

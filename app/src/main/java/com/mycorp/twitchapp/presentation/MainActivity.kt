@@ -5,12 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mycorp.twitchapp.data.database.AppDatabase
-import com.mycorp.twitchapp.data.database.GameData
+import com.mycorp.twitchapp.data.repository.RepositoryImplementation
+import com.mycorp.twitchapp.data.storage.room.AppDatabase
+import com.mycorp.twitchapp.data.storage.model.GameData
 import com.mycorp.twitchapp.databinding.ActivityMainBinding
-import com.mycorp.twitchapp.data.retrofit.Common
-import com.mycorp.twitchapp.data.retrofit.TopItem
-import com.mycorp.twitchapp.data.retrofit.TwitchResponse
+import com.mycorp.twitchapp.data.storage.retrofit.Common
+import com.mycorp.twitchapp.data.storage.retrofit.TopItem
+import com.mycorp.twitchapp.data.storage.retrofit.TwitchResponse
+import com.mycorp.twitchapp.data.storage.room.RoomStorage
+import com.mycorp.twitchapp.domain.use_cases.GetFromDbUseCase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,9 +21,11 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+    private val getFromDbUseCase by lazy { GetFromDbUseCase(RepositoryImplementation(RoomStorage(applicationContext))) }
+
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var gamesListAdapter: GamesListAdapter
-    private lateinit var db: AppDatabase
+
     private var games: ArrayList<GameData> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,51 +33,50 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        db = AppDatabase.getInstance(this)
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
         initReportButton()
         getGamesFromDb()
-        getGamesFromApi()
+//        getGamesFromApi()
     }
 
-    private fun getGamesFromApi() {
-        Common.retrofitService.loadGames().enqueue(object : Callback<TwitchResponse> {
-            override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
-                t.printStackTrace()
-            }
+//    private fun getGamesFromApi() {
+//        Common.retrofitService.loadGames().enqueue(object : Callback<TwitchResponse> {
+//            override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
+//                t.printStackTrace()
+//            }
+//
+//            @SuppressLint("NotifyDataSetChanged")
+//            override fun onResponse(
+//                call: Call<TwitchResponse>,
+//                response: Response<TwitchResponse>
+//            ) {
+//                val twitchResponse = response.body()
+//                if (twitchResponse != null) twitchResponse.top?.let {
+//                    if (it.isNotEmpty()) {
+//                        insertGameDataToDb(it)
+//                        games.addAll(convertItemsToGames(it))
+//                        gamesListAdapter.notifyDataSetChanged()
+//                    }
+//                }
+//
+//            }
+//        })
+//    }
 
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(
-                call: Call<TwitchResponse>,
-                response: Response<TwitchResponse>
-            ) {
-                val twitchResponse = response.body()
-                if (twitchResponse != null) twitchResponse.top?.let {
-                    if (it.isNotEmpty()) {
-                        insertGameDataToDb(it)
-                        games.addAll(convertItemsToGames(it))
-                        gamesListAdapter.notifyDataSetChanged()
-                    }
-                }
-
-            }
-        })
-    }
-
-    private fun insertGameDataToDb(items: List<TopItem?>) {
-        for (item in items) {
-            db.gameDataDao.insert(
-                GameData(
-                    item?.game?.id!!,
-                    item.game.name!!,
-                    item.game.box?.large!!,
-                    item.channels!!,
-                    item.viewers!!
-                )
-            )
-        }
-    }
+//    private fun insertGameDataToDb(items: List<TopItem?>) {
+//        for (item in items) {
+//            db.gameDataDao.insert(
+//                GameData(
+//                    item?.game?.id!!,
+//                    item.game.name!!,
+//                    item.game.box?.large!!,
+//                    item.channels!!,
+//                    item.viewers!!
+//                )
+//            )
+//        }
+//    }
 
     private fun convertItemsToGames(items: List<TopItem?>): List<GameData> {
         val gamesData: MutableList<GameData> = mutableListOf()
@@ -92,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun getGamesFromDb() {
-        val gamesFromDb = db.gameDataDao.getAllGames()
+        val gamesFromDb = getFromDbUseCase.execute()
         games.addAll(gamesFromDb)
         gamesListAdapter.notifyDataSetChanged()
     }
