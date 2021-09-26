@@ -14,7 +14,7 @@ class RepositoryImplementation(
     override fun getGamesDataFromDb() =
         convertGameDataToGameDataOfDomainModel(storage.getGamesDataFromDb())
 
-    override fun getGamesDataFromNetwork() =
+    override suspend fun getGamesDataFromNetwork() =
         convertGameDataToGameDataOfDomainModel(networkController.getDataFromNetwork() as ArrayList<GameData>)
 
     override fun insertGamesData(gamesData: List<GameDataOfDomainModule>) =

@@ -10,25 +10,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class NetworkControllerImpl : NetworkController {
-    override fun getDataFromNetwork(): List<GameData> {
-        val games = ArrayList<GameData>()
-        Common.retrofitService.loadGames().enqueue(object : Callback<TwitchResponse> {
-            override fun onFailure(call: Call<TwitchResponse>, t: Throwable) {
-                t.printStackTrace()
-            }
-            override fun onResponse(
-                call: Call<TwitchResponse>,
-                response: Response<TwitchResponse>
-            ) {
-                val twitchResponse = response.body()
-                if (twitchResponse != null) twitchResponse.top?.let {
-                    if (it.isNotEmpty()) {
-                        games.addAll(convertItemsToGamesData(it))
-                    }
-                }
-            }
-        })
-        return games
+    override suspend fun getDataFromNetwork(): List<GameData> {
+        return convertItemsToGamesData(Common.retrofitService.loadGames().top!!)
     }
 
     private fun convertItemsToGamesData(items: List<TopItem?>): List<GameData> {

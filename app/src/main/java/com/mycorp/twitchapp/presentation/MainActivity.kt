@@ -1,21 +1,15 @@
 package com.mycorp.twitchapp.presentation
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mycorp.twitchapp.data.network.NetworkControllerImpl
-import com.mycorp.twitchapp.data.repository.RepositoryImplementation
-import com.mycorp.twitchapp.data.storage.model.GameData
-import com.mycorp.twitchapp.data.storage.room.RoomStorage
 import com.mycorp.twitchapp.databinding.ActivityMainBinding
 import com.mycorp.twitchapp.domain.model.GameDataOfDomainModule
-import com.mycorp.twitchapp.domain.use_cases.GetFromDbUseCase
-import com.mycorp.twitchapp.domain.use_cases.GetFromNetworkUseCase
-import com.mycorp.twitchapp.domain.use_cases.InsertToDbUseCase
-import java.util.*
+import com.mycorp.twitchapp.domain.model.Status
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,11 +28,33 @@ class MainActivity : AppCompatActivity() {
         initReportButton()
 
         viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
-        viewModel.getFromDbLiveData.observe(this,{
-            games.addAll(it)
-            gamesListAdapter.notifyDataSetChanged()
+//        viewModel.getFromDbLiveData.observe(this,{
+//            games.addAll(it)
+//            gamesListAdapter.notifyDataSetChanged()
+//        })
+//        viewModel.getGamesFromDb()
+        viewModel.getGamesFromNetwork().observe(this, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        retrieveList(resource.data as ArrayList<GameDataOfDomainModule>)
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        Toast.makeText(this, "LOADING", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         })
-        viewModel.getGamesFromDb()
+    }
+
+    private fun retrieveList(games:ArrayList<GameDataOfDomainModule>){
+        gamesListAdapter.apply {
+            addGames(games)
+            notifyDataSetChanged()
+        }
     }
 
     private fun setRvAdapter() {

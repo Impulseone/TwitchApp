@@ -5,6 +5,6 @@ import java.util.*
 
 interface Repository {
     fun getGamesDataFromDb(): ArrayList<GameDataOfDomainModule>
-    fun getGamesDataFromNetwork(): ArrayList<GameDataOfDomainModule>
+    suspend fun getGamesDataFromNetwork(): ArrayList<GameDataOfDomainModule>
     fun insertGamesData(gamesData: List<GameDataOfDomainModule>)
 }

@@ -11,6 +11,18 @@ data class TwitchResponse(
 	val total: Int? = null
 )
 
+data class TopItem(
+
+	@field:SerializedName("game")
+	val game: Game? = null,
+
+	@field:SerializedName("viewers")
+	val viewers: Int? = null,
+
+	@field:SerializedName("channels")
+	val channels: Int? = null
+)
+
 data class Box(
 
 	@field:SerializedName("small")
@@ -48,18 +60,6 @@ data class Game(
 
 	@field:SerializedName("localized_name")
 	val localizedName: String? = null
-)
-
-data class TopItem(
-
-	@field:SerializedName("game")
-	val game: Game? = null,
-
-	@field:SerializedName("viewers")
-	val viewers: Int? = null,
-
-	@field:SerializedName("channels")
-	val channels: Int? = null
 )
 
 data class Logo(

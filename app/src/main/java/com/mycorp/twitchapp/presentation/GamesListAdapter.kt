@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mycorp.twitchapp.R
-import com.mycorp.twitchapp.data.storage.model.GameData
 import com.mycorp.twitchapp.databinding.GameItemViewBinding
 import com.mycorp.twitchapp.domain.model.GameDataOfDomainModule
 
-class GamesListAdapter(private val items: List<GameDataOfDomainModule>) :
+class GamesListAdapter(private val items: ArrayList<GameDataOfDomainModule>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -32,6 +31,13 @@ class GamesListAdapter(private val items: List<GameDataOfDomainModule>) :
                 channelsCount.text = "Channels: " + gameData.channelsCount
                 watchersCount.text = "Viewers: " + gameData.watchersCount
             }
+        }
+    }
+
+    fun addGames(games: ArrayList<GameDataOfDomainModule>) {
+        this.items.apply {
+            clear()
+            addAll(games)
         }
     }
 }
