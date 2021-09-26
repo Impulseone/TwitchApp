@@ -5,5 +5,5 @@ import com.mycorp.twitchapp.domain.repository.Repository
 import java.util.ArrayList
 
 class GetFromDbUseCase(private val repository: Repository) {
-    fun execute():ArrayList<GameDataOfDomainModule> = repository.getGamesDataFromDb()
+   suspend fun execute():ArrayList<GameDataOfDomainModule> = repository.getGamesDataFromDb()
 }

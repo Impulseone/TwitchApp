@@ -9,8 +9,8 @@ class RoomStorage(private val context: Context): Storage {
 
     private var db:AppDatabase = AppDatabase.getInstance(context = context)
 
-    override fun getGamesDataFromDb(): ArrayList<GameData> = db.gameDataDao.getAllGames() as ArrayList<GameData>
-    override fun insertGamesData(gamesData: List<GameData>){
+    override suspend fun getGamesDataFromDb(): ArrayList<GameData> = db.gameDataDao.getAllGames() as ArrayList<GameData>
+    override suspend fun insertGamesData(gamesData: List<GameData>){
         db.gameDataDao.insertAll(gamesData)
     }
 

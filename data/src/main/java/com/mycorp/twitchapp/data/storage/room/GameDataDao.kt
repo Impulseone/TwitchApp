@@ -7,20 +7,20 @@ import com.mycorp.twitchapp.data.storage.model.GameData
 @Dao
 interface GameDataDao {
     @Insert(onConflict = REPLACE)
-    fun insert(gameData: GameData)
+    suspend fun insert(gameData: GameData)
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(objects: List<GameData>)
+    suspend fun insertAll(objects: List<GameData>)
 
     @Update
-    fun update(gameData: GameData)
+    suspend fun update(gameData: GameData)
 
     @Delete
-    fun delete(gameData: GameData)
+    suspend fun delete(gameData: GameData)
 
     @Query("SELECT * FROM GameData")
-    fun getAllGames(): List<GameData>
+    suspend fun getAllGames(): List<GameData>
 
     @Query("SELECT * FROM GameData WHERE id=(:id)")
-    fun getGameById(id: Int): GameData
+    suspend fun getGameById(id: Int): GameData
 }

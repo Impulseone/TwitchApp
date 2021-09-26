@@ -4,6 +4,6 @@ import com.mycorp.twitchapp.data.storage.model.GameData
 import java.util.ArrayList
 
 interface Storage {
-    fun getGamesDataFromDb(): ArrayList<GameData>
-    fun insertGamesData(gamesData: List<GameData>)
+   suspend fun getGamesDataFromDb(): ArrayList<GameData>
+   suspend fun insertGamesData(gamesData: List<GameData>)
 }

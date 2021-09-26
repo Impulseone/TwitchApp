@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
-        initReportButton()
+        setReportButton()
         subscribeByGamesFromDb()
         subscribeByGamesFromNetwork()
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.gamesRv.adapter = gamesListAdapter
     }
 
-    private fun initReportButton() {
+    private fun setReportButton() {
         activityMainBinding.reportButton.setOnClickListener {
             startActivity(Intent(this, RatingActivity::class.java))
         }

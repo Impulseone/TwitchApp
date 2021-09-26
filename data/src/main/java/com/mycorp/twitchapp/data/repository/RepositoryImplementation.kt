@@ -11,13 +11,13 @@ class RepositoryImplementation(
     private val storage: Storage,
     private val networkController: NetworkController
 ) : Repository {
-    override fun getGamesDataFromDb() =
+    override suspend fun getGamesDataFromDb() =
         convertGameDataToGameDataOfDomainModel(storage.getGamesDataFromDb())
 
     override suspend fun getGamesDataFromNetwork() =
         convertGameDataToGameDataOfDomainModel(networkController.getDataFromNetwork() as ArrayList<GameData>)
 
-    override fun insertGamesData(gamesData: List<GameDataOfDomainModule>) =
+    override suspend fun insertGamesData(gamesData: List<GameDataOfDomainModule>) =
         storage.insertGamesData(convertGameDataOfDomainModelToGameData(gamesData))
 
     private fun convertGameDataToGameDataOfDomainModel(gamesData: List<GameData>): ArrayList<GameDataOfDomainModule> {
