@@ -22,13 +22,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
-
+        viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
         initReportButton()
         subscribeByGamesFromDb()
         subscribeByGamesFromNetwork()
-        viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
 
     }
 
