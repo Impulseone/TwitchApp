@@ -26,13 +26,31 @@ class MainActivity : AppCompatActivity() {
         gamesListAdapter = GamesListAdapter(games)
         setRvAdapter()
         initReportButton()
-
+        subscribeByGamesFromDb()
+        subscribeByGamesFromNetwork()
         viewModel = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
-//        viewModel.getFromDbLiveData.observe(this,{
-//            games.addAll(it)
-//            gamesListAdapter.notifyDataSetChanged()
-//        })
-//        viewModel.getGamesFromDb()
+
+    }
+
+    private fun subscribeByGamesFromDb(){
+        viewModel.getGamesFromDb().observe(this, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        retrieveList(resource.data as ArrayList<GameDataOfDomainModule>)
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        Toast.makeText(this, "LOADING", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
+    }
+
+    private fun subscribeByGamesFromNetwork(){
         viewModel.getGamesFromNetwork().observe(this, {
             it?.let { resource ->
                 when (resource.status) {
@@ -50,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun retrieveList(games:ArrayList<GameDataOfDomainModule>){
+    private fun retrieveList(games: ArrayList<GameDataOfDomainModule>) {
         gamesListAdapter.apply {
             addGames(games)
             notifyDataSetChanged()

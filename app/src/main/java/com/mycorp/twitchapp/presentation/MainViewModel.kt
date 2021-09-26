@@ -18,8 +18,13 @@ class MainViewModel(
     private val getFromDbLiveDataMutable = MutableLiveData<List<GameDataOfDomainModule>>()
     val getFromDbLiveData = getFromDbLiveDataMutable
 
-    fun getGamesFromDb() {
-        getFromDbLiveDataMutable.value = getFromDbUseCase.execute()
+    fun getGamesFromDb() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = getFromDbUseCase.execute()))
+        } catch (exception: Exception) {
+            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+        }
     }
 
     fun getGamesFromNetwork() = liveData(Dispatchers.IO) {
